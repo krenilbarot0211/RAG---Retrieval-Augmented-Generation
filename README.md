@@ -1,22 +1,42 @@
-🤖 RAG Assistant: Chat with your PDFs
-A streamlined Retrieval-Augmented Generation (RAG) application that allows users to upload PDF documents and ask questions. It uses high-performance AI models to provide instant, accurate answers based only on the uploaded content.
+🤖 Advanced RAG Assistant: Intelligent PDF Conversation Engine
+An enterprise-grade Retrieval-Augmented Generation (RAG) pipeline designed to bridge the gap between static documents and actionable intelligence. This project leverages a state-of-the-art tech stack to provide near-instant, context-aware responses to complex queries.
 
-💡 The Concept (In Simple Words)
-Most AI models (like ChatGPT) only know what they were trained on. RAG gives the AI a "temporary memory" (your PDF).
+🌟 Overview
+Traditional LLMs suffer from "knowledge cutoff" and hallucinations when asked about private data. This project solves that by implementing a RAG workflow: grounding the AI's responses in specific, retrieved facts from your own uploaded PDF documents.
 
-Ingestion: It reads your PDF and breaks it into small chunks.
+🏗️ Technical Architecture
+The system is built on a modular four-stage pipeline:
 
-Retrieval: When you ask a question, it searches those chunks for the most relevant information.
+1. Data Ingestion & Pre-processing
 
-Generation: It sends that specific information to the LLM (Groq) to generate a precise answer.
+Loading: Uses PyPDFLoader to parse and extract raw text from PDF files.
 
-🛠️ Tech Stack
-Frontend: Streamlit (Clean, web-based UI)
+Chunking: Implements RecursiveCharacterTextSplitter.
 
-Orchestration: LangChain (Connects the AI components)
+Strategy: 1000 character chunks with a 200-character overlap to ensure no context is lost at the "seams" of the split.
 
-LLM: Groq (Mixtral-8x7b) – chosen for ultra-fast response times.
+2. Embedding & Vector Storage
 
-Vector Database: FAISS (Efficient similarity search)
+Model: all-MiniLM-L6-v2 from HuggingFace. This was chosen for its perfect balance between speed and semantic accuracy.
 
-Embeddings: HuggingFace (Converts text into searchable math vectors)
+Vector Database: FAISS (Facebook AI Similarity Search). It allows for efficient similarity searches in high-dimensional spaces, enabling the assistant to find relevant document sections in milliseconds.
+
+3. Retrieval & Prompt Engineering
+
+Context Retrieval: The system uses a similarity search to find the top k most relevant chunks.
+
+Prompt Template: A custom ChatPromptTemplate is used to strictly instruct the LLM to only use the provided context, reducing hallucinations.
+
+4. Generation (The Inference Engine)
+
+LLM: Groq (Mixtral-8x7b-32768).
+
+Reasoning: Using Groq’s LPU (Language Processing Unit) inference engine allows this app to achieve token-per-second speeds that are significantly faster than traditional cloud providers.
+
+
+🚀 Getting Started
+Prerequisites
+
+A Groq API Key (Obtainable from the Groq Console)
+
+A Python environment (Conda or venv recommended)
